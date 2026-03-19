@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "birthday": {
+      "reactions": {
+        ".read": true,
+        ".write": true
+      },
+      "messages": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
