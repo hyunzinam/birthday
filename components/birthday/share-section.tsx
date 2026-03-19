@@ -39,23 +39,38 @@ export function ShareSection() {
     const shareUrl = window.location.href
     const shareTextContent = "👉 다른 친구한테도 축하받아볼까? 😏"
 
-    if (window.Kakao?.Share?.sendDefault) {
-      window.Kakao.Share.sendDefault({
-        objectType: "text",
-        text: shareTextContent,
-        link: {
-          mobileWebUrl: shareUrl,
-          webUrl: shareUrl,
-        },
+    const fallbackToCopy = () => {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        toast({
+          title: "링크를 복사했어요. 카톡에서 붙여넣기 해주세요.",
+          variant: "success",
+        })
       })
+    }
+
+    if (window.Kakao?.isInitialized?.() && window.Kakao?.Share?.sendDefault) {
+      try {
+        window.Kakao.Share.sendDefault({
+          objectType: "text",
+          text: shareTextContent,
+          link: {
+            mobileWebUrl: shareUrl,
+            webUrl: shareUrl,
+          },
+        })
+      } catch {
+        fallbackToCopy()
+      }
     } else if (navigator.share) {
       navigator.share({
         title: "생일 롤링페이퍼 공유",
         text: `${shareTextContent}\n\n${shareUrl}`,
         url: shareUrl,
       }).catch(() => {
-        // 사용자 취소 등은 조용히 처리
+        fallbackToCopy()
       })
+    } else {
+      fallbackToCopy()
     }
   }
 

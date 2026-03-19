@@ -1,10 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Copy, MessageCircle, X } from "lucide-react"
+
+const KAKAOPAY_DEEP_LINK =
+  "kakaopay://money/to/bank?bank_code=004&bank_account_number=80750104214027"
+const KAKAOPAY_WEB_URL = "https://pay.kakaopay.com/"
 
 const giftOptions = [
   {
@@ -32,6 +36,13 @@ const giftOptions = [
 
 export function GiftSection() {
   const [isBonusOpen, setIsBonusOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    )
+  }, [])
 
   const accountInfo = {
     role: "예금주",
@@ -60,21 +71,6 @@ export function GiftSection() {
       document.execCommand("copy")
       document.body.removeChild(textArea)
       toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
-    }
-  }
-
-  const handleKakaoPayClick = () => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    if (isMobile) {
-      // iOS Safari 등에서 앵커 클릭이 더 안정적으로 동작함
-      const a = document.createElement("a")
-      a.href = accountInfo.kakaoPayDeepLink
-      a.style.display = "none"
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    } else {
-      openLink(accountInfo.kakaoPayUrl)
     }
   }
 
@@ -165,15 +161,26 @@ export function GiftSection() {
                   <Copy className="w-5 h-5" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleKakaoPayClick}
-                  className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
-                  aria-label="카카오페이로 송금"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="text-base font-semibold leading-none">pay</span>
-                </button>
+                {isMobile ? (
+                  <a
+                    href={KAKAOPAY_DEEP_LINK}
+                    className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
+                    aria-label="카카오페이로 송금"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span className="text-base font-semibold leading-none">pay</span>
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => openLink(KAKAOPAY_WEB_URL)}
+                    className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
+                    aria-label="카카오페이로 송금"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span className="text-base font-semibold leading-none">pay</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
