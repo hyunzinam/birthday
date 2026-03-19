@@ -8,7 +8,8 @@ import { Copy, MessageCircle, X } from "lucide-react"
 
 const KAKAOPAY_DEEP_LINK =
   "kakaopay://money/to/bank?bank_code=004&bank_account_number=80750104214027"
-const KAKAOPAY_WEB_URL = "https://pay.kakaopay.com/"
+// PC용: 카카오페이 송금 페이지(계좌번호 붙여넣기 가능)
+const KAKAOPAY_WEB_URL = "https://www.kakaopay.com/services/life/money_transfer"
 
 const giftOptions = [
   {
@@ -37,11 +38,15 @@ const giftOptions = [
 export function GiftSection() {
   const [isBonusOpen, setIsBonusOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isKakaoTalkInApp, setIsKakaoTalkInApp] = useState(false)
 
   useEffect(() => {
+    const ua = navigator.userAgent
     setIsMobile(
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
     )
+    // 카카오톡 인앱 브라우저에서는 kakaopay:// 딥링크가 차단됨 → 웹 링크 사용
+    setIsKakaoTalkInApp(/KAKAOTALK|KakaoTalk/i.test(ua))
   }, [])
 
   const accountInfo = {
@@ -58,11 +63,11 @@ export function GiftSection() {
     window.open(url, "_blank", "noopener,noreferrer")
   }
 
-  const handleCopyAccount = async () => {
+  const copyAccountToClipboard = async (): Promise<boolean> => {
     const copyText = `${accountInfo.bank} ${accountInfo.number} (${accountInfo.owner})`
     try {
       await navigator.clipboard.writeText(copyText)
-      toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
+      return true
     } catch {
       const textArea = document.createElement("textarea")
       textArea.value = copyText
@@ -70,7 +75,28 @@ export function GiftSection() {
       textArea.select()
       document.execCommand("copy")
       document.body.removeChild(textArea)
-      toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
+      return true
+    }
+  }
+
+  const handleCopyAccount = async () => {
+    await copyAccountToClipboard()
+    toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
+  }
+
+  const handleKakaoPayClick = async () => {
+    const copied = await copyAccountToClipboard()
+    toast({
+      title: copied ? "계좌번호 복사됐어요. 카카오페이에서 붙여넣기 후 송금해주세요" : "카카오페이에서 계좌정보를 입력해주세요",
+      variant: "success",
+    })
+    // 카카오톡 인앱 브라우저: kakaopay:// 차단됨 → 웹 링크 사용
+    // 모바일 일반 브라우저: 딥링크로 앱 실행
+    // PC: 웹 송금 페이지
+    if (isKakaoTalkInApp || !isMobile) {
+      openLink(KAKAOPAY_WEB_URL)
+    } else {
+      window.location.href = KAKAOPAY_DEEP_LINK
     }
   }
 
@@ -161,26 +187,15 @@ export function GiftSection() {
                   <Copy className="w-5 h-5" />
                 </button>
 
-                {isMobile ? (
-                  <a
-                    href={KAKAOPAY_DEEP_LINK}
-                    className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
-                    aria-label="카카오페이로 송금"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    <span className="text-base font-semibold leading-none">pay</span>
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => openLink(KAKAOPAY_WEB_URL)}
-                    className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
-                    aria-label="카카오페이로 송금"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    <span className="text-base font-semibold leading-none">pay</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={handleKakaoPayClick}
+                  className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
+                  aria-label="카카오페이로 송금"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span className="text-base font-semibold leading-none">pay</span>
+                </button>
               </div>
             </div>
           </div>
