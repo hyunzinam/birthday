@@ -35,7 +35,7 @@ const toastVariants = cva(
         'delete-error':
           'delete group border-[#f05650] bg-[#f05650] text-white [&>button]:text-white [&>button:hover]:text-white/90',
         success:
-          'border border-border/60 bg-white text-foreground shadow-md',
+          'border border-black/[0.06] bg-[#ffffff] text-foreground shadow-md',
       },
     },
     defaultVariants: {

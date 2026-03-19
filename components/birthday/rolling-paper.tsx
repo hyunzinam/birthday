@@ -33,15 +33,15 @@ interface RollingPaperProps {
 }
 
 const BASE_NOTE_LAYOUTS = [
-  { x: -8, y: 3, rotation: -7, color: "bg-[#f2e3e5]", scale: 1.04 },
-  { x: 33, y: 4, rotation: -24, color: "bg-[#ececee]", scale: 1.02 },
-  { x: 74, y: 8, rotation: 10, color: "bg-[#eef09a]", scale: 1.08 },
-  { x: -6, y: 36, rotation: -10, color: "bg-[#ededee]", scale: 1.03 },
-  { x: 31, y: 40, rotation: 22, color: "bg-[#e7e7e8]", scale: 1.05 },
-  { x: 76, y: 37, rotation: -8, color: "bg-[#ececee]", scale: 1.02 },
-  { x: -3, y: 67, rotation: 1, color: "bg-[#e9e9ea]", scale: 1.01 },
-  { x: 39, y: 66, rotation: -25, color: "bg-[#eef09a]", scale: 1.1 },
-  { x: 76, y: 71, rotation: 14, color: "bg-[#9abce2]", scale: 1.06 },
+  { rotation: -7, color: "bg-[#f2e3e5]" },
+  { rotation: -24, color: "bg-[#ececee]" },
+  { rotation: 10, color: "bg-[#eef09a]" },
+  { rotation: -10, color: "bg-[#ededee]" },
+  { rotation: 22, color: "bg-[#e7e7e8]" },
+  { rotation: -8, color: "bg-[#ececee]" },
+  { rotation: 1, color: "bg-[#e9e9ea]" },
+  { rotation: -25, color: "bg-[#eef09a]" },
+  { rotation: 14, color: "bg-[#9abce2]" },
 ]
 
 function getNoteLayout(index: number, _totalCount: number) {
@@ -318,7 +318,7 @@ export function RollingPaper({
   )
 
   return (
-    <section className="px-6 py-10 bg-background">
+    <section className="px-6 py-10 bg-background overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -332,24 +332,20 @@ export function RollingPaper({
           </p>
         </div>
 
-        <div className="relative w-full min-h-[560px] md:min-h-[620px]">
+        <div className="grid grid-cols-3 gap-3 md:gap-4">
           {baseSlots.map((index) => {
             const layout = BASE_NOTE_LAYOUTS[index]
             const message = publicMessages[index]
             return (
               <motion.div
                 key={`note-${index}`}
-                initial={{ opacity: 0, scale: layout.scale * 0.88, rotate: layout.rotation }}
-                whileInView={{ opacity: 1, scale: layout.scale, rotate: layout.rotation }}
+                initial={{ opacity: 0, scale: 0.95, rotate: layout.rotation }}
+                whileInView={{ opacity: 1, scale: 1, rotate: layout.rotation }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.04 }}
-                whileHover={{ scale: layout.scale * 1.04, rotate: layout.rotation * 0.45, zIndex: 10 }}
-                className={`absolute w-[33%] min-w-[132px] h-[31%] min-h-[162px] rounded-[4px] ${layout.color} ring-1 ring-black/8 cursor-pointer overflow-hidden`}
-                style={{
-                  left: `${layout.x}%`,
-                  top: `${layout.y}%`,
-                  opacity: message ? 1 : 0.58,
-                }}
+                whileHover={{ scale: 1.02, rotate: layout.rotation * 0.45, zIndex: 10 }}
+                className={`relative w-full min-h-[140px] rounded-[4px] ${layout.color} ring-1 ring-black/8 cursor-pointer overflow-hidden`}
+                style={{ opacity: message ? 1 : 0.58 }}
                 onClick={() => message && setSelectedMessageId(message.id)}
               >
                 <NoteContent message={message} />
@@ -366,11 +362,11 @@ export function RollingPaper({
               return (
                 <motion.div
                   key={`note-extra-${index}`}
-                  initial={{ opacity: 0, scale: layout.scale * 0.88, rotate: layout.rotation }}
-                  whileInView={{ opacity: 1, scale: layout.scale, rotate: layout.rotation }}
+                  initial={{ opacity: 0, scale: 0.95, rotate: layout.rotation }}
+                  whileInView={{ opacity: 1, scale: 1, rotate: layout.rotation }}
                   viewport={{ once: true }}
                   transition={{ delay: (index - 9) * 0.03 }}
-                  whileHover={{ scale: layout.scale * 1.04, rotate: layout.rotation * 0.45, zIndex: 10 }}
+                  whileHover={{ scale: 1.02, rotate: layout.rotation * 0.45, zIndex: 10 }}
                   className={`relative w-full min-h-[140px] rounded-[4px] ${layout.color} ring-1 ring-black/8 cursor-pointer overflow-hidden`}
                   onClick={() => message && setSelectedMessageId(message.id)}
                 >

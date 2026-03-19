@@ -40,6 +40,7 @@ export function CelebrateSection({ onReaction, reactionCounts }: CelebrateSectio
     setClickedButton(type)
     toast({
       title: "🎉 축하가 전달됐어요!",
+      variant: "success",
     })
 
     const colors = ['#FF6B6B', '#FFE66D', '#4ECDC4', '#95E1D3', '#FF9F43', '#A29BFE']
@@ -66,7 +67,7 @@ export function CelebrateSection({ onReaction, reactionCounts }: CelebrateSectio
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden bg-gradient-to-b from-background to-secondary/30">
       {/* Confetti - 전체 화면 앞에서 팡! */}
-      <div className="pointer-events-none fixed inset-0 z-[100]">
+      <div className="pointer-events-none fixed inset-0 z-[100] overflow-hidden">
         <AnimatePresence>
           {confetti.map((c) => (
             <motion.div
