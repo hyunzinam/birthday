@@ -172,9 +172,9 @@ export function RollingPaper({
         })
       )
       setIsWriteOpen(false)
-      toast({ title: "💌 메시지가 잘 전달됐어요", variant: "success" })
+      toast({ title: "💌 메시지가 잘 전달됐어요", variant: "success", duration: 2000 })
     } catch {
-      toast({ title: "메시지 전송에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive" })
+      toast({ title: "메시지 전송에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive", duration: 2000 })
     }
   }
 

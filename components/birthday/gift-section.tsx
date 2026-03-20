@@ -62,7 +62,7 @@ export function GiftSection() {
 
   const handleCopyAccount = async () => {
     await copyAccountToClipboard()
-    toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
+    toast({ title: "클립보드에 복사되었습니다.", variant: "success", duration: 2000 })
   }
 
   const handleGiftOptionClick = (key: string, url: string) => {

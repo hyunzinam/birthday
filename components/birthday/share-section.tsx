@@ -16,6 +16,7 @@ export function ShareSection() {
       toast({
         title: "클립보드에 복사되었습니다.",
         variant: "success",
+        duration: 2000,
       })
     } catch {
       const textArea = document.createElement("textarea")
@@ -29,6 +30,7 @@ export function ShareSection() {
       toast({
         title: "클립보드에 복사되었습니다.",
         variant: "success",
+        duration: 2000,
       })
     }
   }
@@ -44,6 +46,7 @@ export function ShareSection() {
         toast({
           title: "링크를 복사했어요. 카톡에서 붙여넣기 해주세요.",
           variant: "success",
+          duration: 2000,
         })
       })
     }

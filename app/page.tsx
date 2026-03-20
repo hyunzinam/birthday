@@ -51,7 +51,7 @@ export default function BirthdayPage() {
 
   const handleReaction = useCallback((type: string) => {
     incrementReaction(type as keyof ReactionCounts).catch(() => {
-      toast({ title: "축하 전달에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive" })
+      toast({ title: "축하 전달에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive", duration: 2000 })
     })
   }, [])
 
@@ -69,7 +69,7 @@ export default function BirthdayPage() {
           rollingPaperRef.current?.scrollIntoView({ behavior: "smooth" })
         }, 300)
       } catch (err) {
-        toast({ title: "메시지 전송에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive" })
+        toast({ title: "메시지 전송에 실패했어요. 잠시 후 다시 시도해주세요.", variant: "destructive", duration: 2000 })
         throw err
       }
     },
