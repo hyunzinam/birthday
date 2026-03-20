@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/hooks/use-toast"
+import { stripHtmlTags } from "@/lib/utils"
 import { X, Pencil, Trash2 } from "lucide-react"
 
 interface Message {
@@ -306,7 +307,7 @@ export function RollingPaper({
       {message ? (
         <div className="h-full p-3.5 flex flex-col justify-between">
           <p className="text-[15px] leading-snug text-foreground/85 break-words line-clamp-5 mt-1">
-            {message.content}
+            {stripHtmlTags(message.content)}
           </p>
           <div className="pt-2 flex items-end justify-between gap-2 text-[11px] leading-tight">
             <p className="text-[#9f80ac]">From {message.isAnonymous ? "익명" : message.name}</p>
@@ -585,7 +586,7 @@ export function RollingPaper({
                 <>
                   <div className="max-h-[50vh] overflow-y-auto pr-1 -mr-1">
                     <p className="text-[22px] md:text-[26px] leading-[1.4] text-foreground whitespace-pre-wrap break-words">
-                      {selectedMessage.content}
+                      {stripHtmlTags(selectedMessage.content)}
                     </p>
                   </div>
 
