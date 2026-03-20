@@ -154,7 +154,7 @@ export function CelebrateSection({ onReaction, reactionCounts }: CelebrateSectio
         className="mt-10 text-center text-muted-foreground"
       >
         <p className="text-sm">
-          🎉 지금까지 {Object.values(reactionCounts).reduce((a, b) => a + b, 0).toLocaleString()}번의 축하를 받았어요
+          지금까지 {Object.values(reactionCounts).reduce((a, b) => a + b, 0).toLocaleString()}번의 축하를 받았어요 🎂
         </p>
       </motion.div>
     </section>
