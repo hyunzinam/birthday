@@ -18,9 +18,11 @@ export function IntroSection({ onScrollToCelebrate, onScrollToRollingPaper }: In
         transition={{ duration: 0.55 }}
         className="w-full max-w-md mx-auto"
       >
-        <h1 className="text-center text-foreground mb-4">
-          <span className="block text-3xl md:text-4xl font-bold">🎂 생일이라서 링크 돌립니다</span>
-        </h1>
+        <div className="w-full max-w-md mx-auto text-center mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            🎂 생일이라서 링크 돌립니다
+          </h1>
+        </div>
 
         <div className="text-center text-muted-foreground mb-8 space-y-1.5">
           <p className="text-lg">축하만 해도 충분 🙌</p>

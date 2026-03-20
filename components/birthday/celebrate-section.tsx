@@ -65,7 +65,7 @@ export function CelebrateSection({ onReaction, reactionCounts }: CelebrateSectio
   }
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden bg-gradient-to-b from-background to-secondary/30">
+    <section className="flex flex-col items-center pt-12 pb-12 px-6 relative overflow-hidden bg-gradient-to-b from-background to-secondary/30">
       {/* Confetti - 전체 화면 앞에서 팡! */}
       <div className="pointer-events-none fixed inset-0 z-[100] overflow-hidden">
         <AnimatePresence>
@@ -96,26 +96,21 @@ export function CelebrateSection({ onReaction, reactionCounts }: CelebrateSectio
         </AnimatePresence>
       </div>
 
-      <motion.h2
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-bold text-center text-foreground mb-4"
+        className="w-full max-w-md mx-auto text-center mb-6"
       >
-        🎉 축하 한 번 남기고 가세요
-      </motion.h2>
-      
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="text-muted-foreground text-center mb-10"
-      >
-        가볍게 눌러주면 충분합니다 🙌
-        <br />
-        부담 없이 하나만 눌러주세요
-      </motion.p>
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          🎉 축하 한 번 남기고 가세요
+        </h2>
+        <p className="text-muted-foreground mb-10">
+          가볍게 눌러주면 충분합니다 🙌
+          <br />
+          부담 없이 하나만 눌러주세요
+        </p>
+      </motion.div>
 
       <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
         {reactions.map((reaction, index) => (

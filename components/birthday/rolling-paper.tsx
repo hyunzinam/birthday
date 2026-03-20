@@ -318,16 +318,16 @@ export function RollingPaper({
   )
 
   return (
-    <section className="px-6 py-10 bg-background overflow-x-hidden">
+    <section className="px-6 py-12 bg-background overflow-x-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className="w-full max-w-md mx-auto"
       >
-        <div className="mb-6 text-center">
-          <h2 className="text-4xl font-bold tracking-tight text-foreground">💌 생일 롤링페이퍼</h2>
-          <p className="text-muted-foreground mt-2">
+        <div className="w-full max-w-md mx-auto text-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">💌 생일 롤링페이퍼</h2>
+          <p className="text-muted-foreground">
             벌써 {publicMessages.length}개의 메시지가 도착했어요 🙌
           </p>
         </div>

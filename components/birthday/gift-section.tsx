@@ -1,15 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
-import { Copy, MessageCircle, X } from "lucide-react"
-
-const KAKAOPAY_DEEP_LINK =
-  "kakaopay://money/to/bank?bank_code=004&bank_account_number=80750104214027"
-// PC용: 카카오페이 송금 페이지(계좌번호 붙여넣기 가능)
-const KAKAOPAY_WEB_URL = "https://www.kakaopay.com/services/life/money_transfer"
+import { Copy, X } from "lucide-react"
 
 const giftOptions = [
   {
@@ -37,33 +32,19 @@ const giftOptions = [
 
 export function GiftSection() {
   const [isBonusOpen, setIsBonusOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [isKakaoTalkInApp, setIsKakaoTalkInApp] = useState(false)
-
-  useEffect(() => {
-    const ua = navigator.userAgent
-    setIsMobile(
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
-    )
-    // 카카오톡 인앱 브라우저에서는 kakaopay:// 딥링크가 차단됨 → 웹 링크 사용
-    setIsKakaoTalkInApp(/KAKAOTALK|KakaoTalk/i.test(ua))
-  }, [])
 
   const accountInfo = {
     role: "예금주",
     owner: "남현지",
     bank: "국민은행",
     number: "807501-04-214027",
-    numberRaw: "80750104214027", // 하이픈 제거 (카카오페이용)
-    kakaoPayUrl: "https://pay.kakaopay.com/",
-    kakaoPayDeepLink: "kakaopay://money/to/bank?bank_code=004&bank_account_number=80750104214027",
   }
 
   const openLink = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer")
   }
 
-  const copyAccountToClipboard = async (): Promise<boolean> => {
+  const copyAccountToClipboard = async () => {
     const copyText = `${accountInfo.bank} ${accountInfo.number} (${accountInfo.owner})`
     try {
       await navigator.clipboard.writeText(copyText)
@@ -84,22 +65,6 @@ export function GiftSection() {
     toast({ title: "클립보드에 복사되었습니다.", variant: "success" })
   }
 
-  const handleKakaoPayClick = async () => {
-    const copied = await copyAccountToClipboard()
-    toast({
-      title: copied ? "계좌번호 복사됐어요. 카카오페이에서 붙여넣기 후 송금해주세요" : "카카오페이에서 계좌정보를 입력해주세요",
-      variant: "success",
-    })
-    // 카카오톡 인앱 브라우저: kakaopay:// 차단됨 → 웹 링크 사용
-    // 모바일 일반 브라우저: 딥링크로 앱 실행
-    // PC: 웹 송금 페이지
-    if (isKakaoTalkInApp || !isMobile) {
-      openLink(KAKAOPAY_WEB_URL)
-    } else {
-      window.location.href = KAKAOPAY_DEEP_LINK
-    }
-  }
-
   const handleGiftOptionClick = (key: string, url: string) => {
     if (key === "bonus") {
       setIsBonusOpen(true)
@@ -109,12 +74,12 @@ export function GiftSection() {
   }
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 bg-gradient-to-b from-secondary/30 to-background">
+    <section className="flex flex-col items-center pt-12 pb-20 px-6 bg-gradient-to-b from-secondary/30 to-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-10"
+        className="w-full max-w-md mx-auto text-center mb-6"
       >
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
           🎁 마음을 조금 더 표현하고 싶다면
@@ -177,26 +142,14 @@ export function GiftSection() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleCopyAccount}
-                  className="inline-flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors"
-                  aria-label="계좌번호 복사"
-                >
-                  <Copy className="w-5 h-5" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleKakaoPayClick}
-                  className="inline-flex items-center gap-1 text-foreground/75 hover:text-foreground transition-colors cursor-pointer"
-                  aria-label="카카오페이로 송금"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="text-base font-semibold leading-none">pay</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleCopyAccount}
+                className="inline-flex items-center justify-center text-foreground/70 hover:text-foreground transition-colors"
+                aria-label="계좌번호 복사"
+              >
+                <Copy className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>

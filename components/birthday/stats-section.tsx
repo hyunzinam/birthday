@@ -17,9 +17,11 @@ export function StatsSection({ totalReactions, totalMessages }: StatsSectionProp
         viewport={{ once: true }}
         className="max-w-md mx-auto"
       >
-        <h2 className="text-2xl font-bold text-center text-foreground mb-8">
-          참여 현황
-        </h2>
+        <div className="w-full max-w-md mx-auto text-center mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            참여 현황
+          </h2>
+        </div>
 
         <div className="grid grid-cols-2 gap-4">
           <motion.div
